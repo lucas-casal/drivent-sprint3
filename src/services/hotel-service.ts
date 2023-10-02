@@ -14,6 +14,7 @@ async function get (id: number){
     if (ticket.status !== "PAID" || ticket.TicketType.includesHotel === false || ticket.TicketType.isRemote === true) throw paymentRequiredError()
 
     const hotels = await hotelRepository.get()
+    if (!hotels) throw notFoundError()
 
     return hotels
 }
@@ -29,6 +30,7 @@ async function getRooms (userId: number, hotelId: number){
     if (ticket.status !== "PAID" || ticket.TicketType.includesHotel === false || ticket.TicketType.isRemote === true) throw paymentRequiredError()
 
     const rooms = await hotelRepository.getOneWithRooms(hotelId)
+    if (!rooms) throw notFoundError()
 
     return rooms
 }
